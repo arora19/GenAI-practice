@@ -1,0 +1,42 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+from nltk.corpus import stopwords
+import string
+
+
+stop_words = set(stopwords.words('english'))    #for stopword removal
+stemmer = PorterStemmer()
+lemmatizer = WordNetLemmatizer()
+
+#preprocessing text function
+def prep(text, use_stemming=False):
+    text = text.lower()     #make text lowercase
+    text = text.translate(str.maketrans('', '', string.punctuation))    # remove punctuation
+    tokens = word_tokenize(text)
+    #remove stopwords and store filtered tokens
+    new_tokens = []
+    for word in tokens:
+        if word not in stop_words:
+            new_tokens.append(word)
+
+    processed_tokens = []
+    if use_stemming:
+        for word in new_tokens:
+            processed_tokens.append(stemmer.stem(word))
+    else:
+        for word in new_tokens:
+            processed_tokens.append(lemmatizer.lemmatize(word))
+
+    return processed_tokens
+
+#sample text dataset
+dataset = [
+    "My name is Gaurav Arora.",
+    "I have studied in 4 different countries!!!",
+    "I now work at Nagarro as an associate engineer, and I love it."
+]
+for text in dataset:
+    print("Original text:", text)
+    print("Preprocessed stemmed text:", prep(stemmer.stem(text), use_stemming=True))
+    print("Preprocessed lemmatized text:", prep(lemmatizer.lemmatize(text), use_stemming=False))
