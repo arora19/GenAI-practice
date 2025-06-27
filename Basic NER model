@@ -1,0 +1,14 @@
+# A basic NER model
+import spacy
+
+#load pre-trained english model
+nlp = spacy.load('en_core_web_sm')
+
+text = "This research was based in the American Children’s hospital Pittsburgh in the CF centre. Volunteers for this research included siblings, friends and hospital employee’s children who did not have the condition. Two authors of this research work within the department as paediatrics and others have conducted research regarding children with CF. This included David Michael Orenstein who has many publications on CF. These authors have also conducted other research on children with CF with methods of exercise that can help combat the condition."
+#process the text
+prep = nlp(text)
+
+print("Entities found:")
+#returns a tuple of named entity
+for ent in prep.ents:
+    print(ent.text, ent.label_)
